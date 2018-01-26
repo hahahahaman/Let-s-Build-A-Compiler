@@ -108,4 +108,6 @@ void Init(){
 
 int main(int argv, char** argc){
   Init();
+
+  return 0;
 }
