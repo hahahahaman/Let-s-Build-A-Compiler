@@ -14,7 +14,7 @@
 (defparameter *LOOK* nil)
 
 (defun getchar()
-  (setf *LOOK* (read-char)))
+  (setf *LOOK* (read-char *standard-input* nil)))
 
 (defun report-error(s)
   (format t "~%Error: ~a.~%" s))
@@ -32,7 +32,8 @@
 
 (defun emitln (s)
   (emit s)
-  (format t "~%"))
+  (terpri) ;; new line
+  )
 
 (defun bf->c ()
   (when (characterp *LOOK*)
@@ -56,10 +57,15 @@
 
 (defun init()
   (getchar)
-  (bf->c))
+  )
 
 (defun main()
   (emitln "#include <stdio.h>")
   (emitln "char array[1000000] = {0};")
   (emitln "char *ptr=array;")
-  (init))
+  (emitln "int main(int argv, char** argc) {")
+  (init)
+  (loop while (characterp *LOOK*)
+        do (bf->c))
+  (emitln "return 0;")
+  (emitln "}"))
